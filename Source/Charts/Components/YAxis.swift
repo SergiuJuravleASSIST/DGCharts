@@ -200,7 +200,16 @@ open class YAxis: AxisBase
     }
     
     @objc open var isDrawBottomYLabelEntryEnabled: Bool { return drawBottomYLabelEntryEnabled }
-    
+
     @objc open var isDrawTopYLabelEntryEnabled: Bool { return drawTopYLabelEntryEnabled }
+
+    /// StatSports: text labels shown at the top of the Y axis (e.g. metric names for stacked bar charts)
+    open var topLabelsText: [String] = []
+
+    /// StatSports: background box colors for topLabelsText entries
+    open var topLabelsBoxColors: [NSUIColor] = []
+
+    /// StatSports: text colors for topLabelsText entries
+    open var topLabelsTextColors: [NSUIColor] = []
 
 }
