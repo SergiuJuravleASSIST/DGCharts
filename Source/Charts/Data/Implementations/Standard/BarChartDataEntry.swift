@@ -24,7 +24,15 @@ open class BarChartDataEntry: ChartDataEntry
     
     /// the sum of all positive values this entry (if stacked) contains
     private var _positiveSum: Double = 0.0
-    
+
+    private var _shouldDisplayThunders = false
+    private var _shouldDisplayBattery = false
+    private var _useStatSportsChart = false
+    private var _drawTopSecondValue = false
+    private var _drawBottomValue = false
+    private var _shouldUseTextValue = false
+    private var _textOffset: CGFloat = 0
+
     public required init()
     {
         super.init()
@@ -189,9 +197,44 @@ open class BarChartDataEntry: ChartDataEntry
     {
         return _ranges
     }
-    
+
+    open var shouldDisplayThunders: Bool {
+        get { return _shouldDisplayThunders }
+        set { _shouldDisplayThunders = newValue }
+    }
+
+    open var shouldDisplayBatteryLow: Bool {
+        get { return _shouldDisplayBattery }
+        set { _shouldDisplayBattery = newValue }
+    }
+
+    open var useStatSportsChart: Bool {
+        get { return _useStatSportsChart }
+        set { _useStatSportsChart = newValue }
+    }
+
+    open var drawTopSecondValue: Bool {
+        get { return _drawTopSecondValue }
+        set { _drawTopSecondValue = newValue }
+    }
+
+    open var drawBottomValue: Bool {
+        get { return _drawBottomValue }
+        set { _drawBottomValue = newValue }
+    }
+
+    open var shouldUseTextValue: Bool {
+        get { return _shouldUseTextValue }
+        set { _shouldUseTextValue = newValue }
+    }
+
+    open var textOffset: CGFloat {
+        get { return _textOffset }
+        set { _textOffset = newValue }
+    }
+
     // MARK: NSCopying
-    
+
     open override func copy(with zone: NSZone? = nil) -> Any
     {
         let copy = super.copy(with: zone) as! BarChartDataEntry
@@ -199,6 +242,13 @@ open class BarChartDataEntry: ChartDataEntry
         copy.y = y
         copy._negativeSum = _negativeSum
         copy._positiveSum = _positiveSum
+        copy._shouldDisplayThunders = _shouldDisplayThunders
+        copy._shouldDisplayBattery = _shouldDisplayBattery
+        copy._useStatSportsChart = _useStatSportsChart
+        copy._drawTopSecondValue = _drawTopSecondValue
+        copy._drawBottomValue = _drawBottomValue
+        copy._shouldUseTextValue = _shouldUseTextValue
+        copy._textOffset = _textOffset
         return copy
     }
     

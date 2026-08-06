@@ -12,6 +12,10 @@
 import Foundation
 import CoreGraphics
 
+#if canImport(UIKit)
+import UIKit
+#endif
+
 open class BarChartData: BarLineScatterCandleBubbleChartData
 {
     public required init()
@@ -33,6 +37,17 @@ open class BarChartData: BarLineScatterCandleBubbleChartData
     ///
     /// **default**: 0.85
     @objc open var barWidth = Double(0.85)
+
+    /// The threshold zones for the chart. Array must have 3 values in ascending order.
+    open var thresholdZones: [Double] = [0.75, 1.1, 1.25]
+
+    /// Colors for each threshold zone. Requires 4 colors (below zone0, zone0-1, zone1-2, above zone2).
+    open var thresholdZonesColors: [UIColor] = [.yellow, .green, .orange, .red]
+
+    open var shouldUseStackedBarUI: Bool = false
+
+    /// Index at which the renderer starts skipping stack values from drawing (threshold rows).
+    open var indexStartSkipping: Int? = nil
     
     /// Groups all BarDataSet objects this data object holds together by modifying the x-value of their entries.
     /// Previously set x-values of entries will be overwritten. Leaves space between bars and groups as specified by the parameters.

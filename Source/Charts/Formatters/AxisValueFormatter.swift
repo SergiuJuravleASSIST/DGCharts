@@ -11,11 +11,15 @@
 
 import Foundation
 
+#if canImport(UIKit)
+import UIKit
+#endif
+
 /// An interface for providing custom axis Strings.
 @objc(ChartAxisValueFormatter)
 public protocol AxisValueFormatter: AnyObject
 {
-    
+
     /// Called when a value from an axis is formatted before being drawn.
     ///
     /// For performance reasons, avoid excessive calculations and memory allocations inside this method.
@@ -26,5 +30,23 @@ public protocol AxisValueFormatter: AnyObject
     /// - Returns: The customized label that is drawn on the x-axis.
     func stringForValue(_ value: Double,
                         axis: AxisBase?) -> String
-    
+
+}
+
+/// Container for x-axis player icon data. Return from imageForValue(_:axis:) in your AxisValueFormatter.
+open class xAxisParts: NSObject {
+    open var playerImage: UIImage
+    open var isBenched: Bool
+
+    public override init() {
+        playerImage = UIImage()
+        isBenched = false
+        super.init()
+    }
+}
+
+public extension AxisValueFormatter {
+    func imageForValue(_ value: Double, axis: AxisBase?) -> xAxisParts? {
+        return nil
+    }
 }

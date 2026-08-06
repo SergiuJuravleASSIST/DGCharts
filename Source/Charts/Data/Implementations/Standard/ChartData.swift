@@ -11,6 +11,10 @@
 
 import Foundation
 
+#if canImport(UIKit)
+import UIKit
+#endif
+
 open class ChartData: NSObject, ExpressibleByArrayLiteral
 {
 
@@ -40,7 +44,47 @@ open class ChartData: NSObject, ExpressibleByArrayLiteral
     @objc open var accessibilityEntryLabelSuffixIsCount: Bool = false
     
     var _dataSets = [Element]()
-    
+
+    internal var _useStatSportsChart: Bool = true
+    internal var _isThresholdEnabled: Bool = false
+    internal var _shouldDrawThresholdValueBoxes: Bool = false
+    internal var _prefixStringToValues: String = ""
+    internal var _decimals: Int = 0
+    internal var _decimalsSecondValuesRow: Int? = nil
+
+    /// The color used for delimiter lines drawn between threshold zones.
+    open var delimiterColor: UIColor = .white
+
+    open var useStatSportsChart: Bool {
+        get { return _useStatSportsChart }
+        set { _useStatSportsChart = newValue }
+    }
+
+    open var isThresholdEnabled: Bool {
+        get { return _isThresholdEnabled }
+        set { _isThresholdEnabled = newValue }
+    }
+
+    open var shouldDrawThresholdValueBoxes: Bool {
+        get { return _shouldDrawThresholdValueBoxes }
+        set { _shouldDrawThresholdValueBoxes = newValue }
+    }
+
+    open var prefixStringToValues: String {
+        get { return _prefixStringToValues }
+        set { _prefixStringToValues = newValue }
+    }
+
+    open var decimals: Int {
+        get { return _decimals }
+        set { _decimals = newValue }
+    }
+
+    open var decimalsSecondValuesRow: Int? {
+        get { return _decimalsSecondValuesRow }
+        set { _decimalsSecondValuesRow = newValue }
+    }
+
     public override required init()
     {
         super.init()
