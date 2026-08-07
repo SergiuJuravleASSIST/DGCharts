@@ -23,6 +23,10 @@ open class XAxisRenderer: NSObject, AxisRenderer
     @objc public let axis: XAxis
     @objc public let transformer: Transformer?
 
+    /// Set by BarChartRenderer before the draw cycle reaches renderAxisLabels,
+    /// so the standard call routes to the player-image overload automatically.
+    open var barDataSet: BarChartDataSetProtocol?
+
     @objc public init(viewPortHandler: ViewPortHandler, axis: XAxis, transformer: Transformer?)
     {
         self.viewPortHandler = viewPortHandler
@@ -121,6 +125,11 @@ open class XAxisRenderer: NSObject, AxisRenderer
     open func renderAxisLabels(context: CGContext)
     {
         guard axis.isEnabled, axis.isDrawLabelsEnabled else { return }
+
+        if let ds = barDataSet {
+            renderAxisLabels(with: context, barDataSet: ds)
+            return
+        }
 
         let yOffset = axis.yOffset
 

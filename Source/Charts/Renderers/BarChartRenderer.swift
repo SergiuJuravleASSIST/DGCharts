@@ -177,6 +177,12 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                                                  andData: barData,
                                                  withDefaultDescription: "Bar Chart")
             accessibleChartElements.append(element)
+
+            // Pass first visible dataset to XAxisRenderer so renderAxisLabels
+            // can draw player images instead of plain text labels.
+            if let xRenderer = chart.xAxisRenderer as? XAxisRenderer {
+                xRenderer.barDataSet = barData.first(where: { $0.isVisible }) as? BarChartDataSetProtocol
+            }
         }
 
         for i in barData.indices
