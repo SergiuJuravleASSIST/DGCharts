@@ -141,6 +141,49 @@ open class YAxisRenderer: NSObject, AxisRenderer
                              align: textAlign,
                              attributes: [.font: labelFont, .foregroundColor: labelTextColor])
         }
+
+        if let yAxis = axis as? YAxis, !yAxis.topLabelsText.isEmpty {
+            drawTopLegend(context: context,
+                          yAxis: yAxis,
+                          xPos: fixedPosition,
+                          textFont: labelFont,
+                          textAlign: textAlign)
+        }
+    }
+
+    private func drawTopLegend(context: CGContext, yAxis: YAxis, xPos: CGFloat, textFont: NSUIFont, textAlign: TextAlignment) {
+        let textValues = yAxis.topLabelsText
+        let thresholdConfig = MetricThresholdsConfigurations()
+        var finalYPos: CGFloat = thresholdConfig.boxBorder
+
+        for index in 0 ..< textValues.count {
+            var textColor = NSUIColor.black
+            if yAxis.topLabelsTextColors.count > index {
+                textColor = yAxis.topLabelsTextColors[index]
+            }
+
+            let currentTextSize = thresholdConfig.getTextSize(stringToUse: textValues[index],
+                                                              font: textFont,
+                                                              color: textColor)
+
+            finalYPos = finalYPos + currentTextSize.height * CGFloat(index) + CGFloat(thresholdConfig.betweenBoxSpace * index)
+
+            var boxColor = NSUIColor.clear
+            if yAxis.topLabelsBoxColors.count > index {
+                boxColor = yAxis.topLabelsBoxColors[index]
+            }
+
+            thresholdConfig.drawThresholdBox(context: context,
+                                             point: CGPoint(x: xPos, y: finalYPos),
+                                             currentTextSize: currentTextSize,
+                                             thresholdColor: boxColor,
+                                             boxOpacity: 1)
+
+            context.drawText(textValues[index],
+                             at: CGPoint(x: xPos + currentTextSize.width / 2, y: finalYPos),
+                             align: textAlign,
+                             attributes: [.font: textFont, .foregroundColor: textColor])
+        }
     }
     
     open func renderGridLines(context: CGContext)
