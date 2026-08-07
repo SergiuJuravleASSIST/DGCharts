@@ -282,7 +282,7 @@ open class XAxisRenderer: NSObject, AxisRenderer
             guard viewPortHandler.isInBoundsX(position.x) else { continue }
 
             let label = axis.valueFormatter?.stringForValue(axis.entries[i], axis: axis) ?? ""
-            let player = axis.valueFormatter?.imageForValue(axis.entries[i], axis: axis)
+            let player = axis.valueFormatter?.imageForValue?(axis.entries[i], axis: axis)
             let labelns = label as NSString
 
             if axis.isAvoidFirstLastClippingEnabled {

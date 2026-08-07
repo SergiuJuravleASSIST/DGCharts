@@ -31,6 +31,10 @@ public protocol AxisValueFormatter: AnyObject
     func stringForValue(_ value: Double,
                         axis: AxisBase?) -> String
 
+    /// Optional: return player image data for x-axis icon rendering.
+    /// Conformers that don't implement this get plain text labels.
+    @objc optional func imageForValue(_ value: Double, axis: AxisBase?) -> xAxisParts?
+
 }
 
 /// Container for x-axis player icon data. Return from imageForValue(_:axis:) in your AxisValueFormatter.
@@ -42,11 +46,5 @@ open class xAxisParts: NSObject {
         playerImage = UIImage()
         isBenched = false
         super.init()
-    }
-}
-
-public extension AxisValueFormatter {
-    func imageForValue(_ value: Double, axis: AxisBase?) -> xAxisParts? {
-        return nil
     }
 }
