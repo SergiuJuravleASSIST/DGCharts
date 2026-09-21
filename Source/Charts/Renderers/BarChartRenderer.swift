@@ -570,7 +570,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
                             if !barData.shouldUseStackedBarUI {
                                 if e.drawTopSecondValue && dataSet.isDrawValuesEnabled {
-                                    drawValue(context: context, value: stringToDisplay,
+                                    drawValue(context: context,
+                                              value: formatter.stringFor(stringToDisplay, entry: e, dataSetIndex: dataSetIndex, viewPortHandler: viewPortHandler),
                                               xPos: x, yPos: viewPortHandler.contentTop,
                                               font: valueFont, align: .center,
                                               color: dataSet.valueTextColorAt(index),

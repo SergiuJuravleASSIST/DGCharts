@@ -108,4 +108,12 @@ open class DefaultValueFormatter: NSObject, ValueFormatter
             return formatter?.string(from: NSNumber(floatLiteral: value)) ?? ""
         }
     }
+
+    open func stringFor(_ value: String,
+                        entry: ChartDataEntry,
+                        dataSetIndex: Int,
+                        viewPortHandler: ViewPortHandler?) -> String
+    {
+        return value
+    }
 }

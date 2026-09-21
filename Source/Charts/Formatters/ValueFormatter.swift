@@ -33,4 +33,12 @@ public protocol ValueFormatter: AnyObject
                         entry: ChartDataEntry,
                         dataSetIndex: Int,
                         viewPortHandler: ViewPortHandler?) -> String
+
+    /// Called for the "top second value" / "bottom value" labels drawn by BarChartRenderer,
+    /// letting a formatter (e.g. BarValuesFormatter) override the already-stringified value
+    /// (for example, to show a percentage instead of the raw value).
+    func stringFor(_ value: String,
+                   entry: ChartDataEntry,
+                   dataSetIndex: Int,
+                   viewPortHandler: ViewPortHandler?) -> String
 }
