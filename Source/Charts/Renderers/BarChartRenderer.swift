@@ -117,6 +117,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
 
                 for k in 0..<vals.count
                 {
+                    // StatSports: the second segment (threshold) extends up to 130% of the
+                    // threshold value. If the player value is already above that, it has no height.
                     var val: Double
                     if k > 0 && (vals[k] * 1.3 - vals[k-1]) >= 0 {
                         val = (vals[k] * 1.3) - vals[k-1]
@@ -302,7 +304,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             var startColor = defaultColor
             var endColor = defaultColor
 
-            let valueIndex = j == 0 ? 0 : j / 2
+            let valueIndex = j / 2
             if isThresholdEnabled && valueIndex < values.count && values[valueIndex].count >= 2 {
                 let threshold = values[valueIndex][1]
                 let percentage = threshold > 0 ? values[valueIndex][0] / threshold : 0
@@ -360,7 +362,8 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
             }
 
             // Bottom value background pill
-            if let e = dataSet.entryForIndex(index) as? BarChartDataEntry, e.drawBottomValue {
+            // Use the entry for this bar (valueIndex), not the dataset index.
+            if let e = dataSet.entryForIndex(valueIndex) as? BarChartDataEntry, e.drawBottomValue {
                 context.saveGState()
                 let yPos = viewPortHandler.contentBottom - bottomLabelOffset
                 let bgWidth: CGFloat = barRect.size.width + 12
@@ -554,13 +557,15 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                             else { val = vals[k] }
 
                             var value = e.useStatSportsChart ? val : vals[k]
-                            let y = transformed[k].y + (value >= 0 ? posOffset : negOffset)
 
                             guard viewPortHandler.isInBoundsRight(x) else { break }
 
                             if !barData.shouldUseStackedBarUI {
-                                guard viewPortHandler.isInBoundsY(y),
-                                      viewPortHandler.isInBoundsLeft(x) else { continue }
+                                // Top and bottom labels are drawn at fixed positions
+                                // (contentTop / contentBottom), not at the bar top, so only
+                                // horizontal visibility matters. Checking the bar's Y here
+                                // hid labels whenever a bar was taller than the axis.
+                                guard viewPortHandler.isInBoundsLeft(x) else { continue }
                             }
 
                             var stringToDisplay = getStringToShow(k: k, barData: barData, value: &value, e: e, decimals: barData.decimals)
